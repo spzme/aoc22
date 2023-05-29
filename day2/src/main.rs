@@ -1,3 +1,8 @@
+#![allow(dead_code)]
+#![allow(unused_variables)]
+//We allow this because we only use some of the functions
+//for part 1 and part 2.
+
 use std::str::FromStr;
 
 #[derive(Debug, Clone, Copy)]
