@@ -1,4 +1,4 @@
-###### AOC 22
+##### AOC 22
 
 ### This is my attempt at learning Rust by solving (some of) the problems presented in the Advent of Code (https://adventofcode.com/) of 2022.
 
