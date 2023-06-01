@@ -36,21 +36,42 @@ impl FromStr for Pair {
     }
 }
 
-fn find_overlap(pair: Pair) -> bool {
+fn find_full_overlap(pair: &Pair) -> bool {
     pair.low1 >= pair.low2 && pair.high1 <= pair.high2  //duty of elf 1 fits in duty of elf 2
         || pair.low2 >= pair.low1 && pair.high2 <= pair.high1 //vice versa
 }
 
+fn find_partial_overlap(pair: &Pair) -> bool {
+    todo!() //insert logic
+}
+
 fn main() {
-    let mut count = 0;
-    for pair in include_str!("../files//input.txt")
+    let mut count_full = 0;
+    let mut count_partial = 0;
+    for pair in include_str!("../files//smallinput.txt")
         .lines()
         .map(|line| line.parse::<Pair>())
     {
         let pair = pair.unwrap();
-        if find_overlap(pair) {
-            count += 1;
+        if find_full_overlap(&pair) {
+            count_full += 1;
         }
+
+        if find_partial_overlap(&pair) {
+            count_partial += 1;
+        }
+
+        println!(
+            "{:?} {:?} {:?} {:?}",
+            pair.low1, pair.low2, pair.high1, pair.high2
+        )
     }
-    println!("The number of pairs with an overlap equals {:?}", count);
+    println!(
+        "The number of pairs with a full overlap equals {:?}",
+        count_full
+    );
+    println!(
+        "The number of fairs with a partial overlap equals {:?}",
+        count_partial
+    );
 }
