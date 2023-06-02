@@ -42,13 +42,16 @@ fn find_full_overlap(pair: &Pair) -> bool {
 }
 
 fn find_partial_overlap(pair: &Pair) -> bool {
-    todo!() //insert logic here!
+    pair.low2 <= pair.low1 && pair.low1 <= pair.high2
+        || pair.low2 <= pair.high1 && pair.high1 <= pair.high2
+        || pair.low1 <= pair.low2 && pair.low2 <= pair.high1
+        || pair.low1 <= pair.high2 && pair.high2 <= pair.high1
 }
 
 fn main() {
     let mut count_full = 0;
     let mut count_partial = 0;
-    for pair in include_str!("../files//smallinput.txt")
+    for pair in include_str!("../files//input.txt")
         .lines()
         .map(|line| line.parse::<Pair>())
     {
