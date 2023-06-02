@@ -29,7 +29,7 @@ impl FromStr for Pair {
                     low2: c,
                     high2: d,
                 };
-                return Ok(pair);
+                Ok(pair)
             }
             _ => Err("Was unable to parse pair"),
         }
@@ -63,18 +63,13 @@ fn main() {
         if find_partial_overlap(&pair) {
             count_partial += 1;
         }
-
-        println!(
-            "{:?} {:?} {:?} {:?}",
-            pair.low1, pair.low2, pair.high1, pair.high2
-        )
     }
     println!(
-        "The number of pairs with a full overlap equals {:?}",
+        "PART1: The number of pairs with a full overlap equals {:?}",
         count_full
     );
     println!(
-        "The number of fairs with a partial overlap equals {:?}",
+        "PART2: The number of fairs with a partial overlap equals {:?}",
         count_partial
     );
 }
