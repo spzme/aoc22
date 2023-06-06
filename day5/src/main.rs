@@ -38,8 +38,13 @@ impl FromStr for Move {
 
 #[derive(Debug)]
 struct ParseResult {
-    stacks: Vec<Vec<char>>,
+    stacks: Stacks,
     moves: Vec<Move>,
+}
+
+#[derive(Debug, Clone)]
+struct Stacks {
+    positions: Vec<Vec<char>>,
 }
 
 #[derive(Debug)]
@@ -84,7 +89,9 @@ struct Box {
 
 fn parseinput() -> ParseResult {
     let mut parseresult = ParseResult {
-        stacks: Vec::new(),
+        stacks: Stacks {
+            positions: Vec::new(),
+        },
         moves: Vec::new(),
     };
 
@@ -96,8 +103,8 @@ fn parseinput() -> ParseResult {
     let mut i = 0;
 
     while i < number_of_stacks {
-        let mut stack: Vec<char> = Vec::new();
-        parseresult.stacks.push(stack);
+        let stack: Vec<char> = Vec::new();
+        parseresult.stacks.positions.push(stack);
         i += 1;
     }
 
@@ -127,7 +134,7 @@ fn parseinput() -> ParseResult {
     //Now we "transpose" (sort of) the rows into stacks.
     for row in rows.into_iter().rev() {
         for b in row.boxes {
-            parseresult.stacks[b.stack].push(b.name);
+            parseresult.stacks.positions[b.stack].push(b.name);
         }
     }
 
@@ -140,8 +147,29 @@ fn is_all_numbers(s: &str) -> bool {
         .all(char::is_numeric)
 }
 
+fn apply_move(mut stacks: Stacks, mv: Move) -> Stacks {
+    let mut i = 0;
+    while i < mv.count {
+        let b = stacks.positions[mv.from - 1].pop().unwrap();
+        stacks.positions[mv.to - 1].push(b);
+        i += 1;
+    }
+
+    stacks
+}
+
 fn main() {
     let parseresult = parseinput();
 
-    println!("{:?}", parseresult);
+    let mut stacks = parseresult.stacks;
+    for mv in parseresult.moves {
+        stacks = apply_move(stacks, mv)
+    }
+
+    println!("Stacks of boxes: {:?}", stacks);
+
+    //I would like to find a nice way to obtain the last item in every stack,
+    //But I could not get this to work with iterators and maps.
+
+    //Maybe later! ;)
 }
