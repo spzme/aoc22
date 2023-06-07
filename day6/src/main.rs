@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 
-const DIGITS: usize = 4;
+const DIGITS: usize = 14;
 
 fn process(count: usize, s: &str) -> usize {
     if first_4_unique(s) {
@@ -29,7 +29,7 @@ fn first_4_unique(s: &str) -> bool {
         i += 1;
     }
     //println! {"{:?}", unique};
-    unique.len() == 4
+    unique.len() == DIGITS
 }
 
 fn main() {
