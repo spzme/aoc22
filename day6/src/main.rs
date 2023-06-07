@@ -3,7 +3,7 @@ use std::collections::HashSet;
 const DIGITS: usize = 14;
 
 fn process(count: usize, s: &str) -> usize {
-    if first_4_unique(s) {
+    if first_n_unique(s) {
         return count + DIGITS; //we add 4, because the marker is AFTER the sequence
     }
 
@@ -15,7 +15,7 @@ fn process(count: usize, s: &str) -> usize {
     process(count + 1, &s[1..s.len()])
 }
 
-fn first_4_unique(s: &str) -> bool {
+fn first_n_unique(s: &str) -> bool {
     let mut unique: HashSet<char> = HashSet::new();
     let mut i = 0;
 
