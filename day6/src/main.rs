@@ -1,10 +1,11 @@
 use std::collections::HashSet;
+use std::time::Instant;
 
-const DIGITS: usize = 14;
+const DIGITS: usize = 14; //set to desired number of distinct characters
 
 fn process(count: usize, s: &str) -> usize {
     if first_n_unique(s) {
-        return count + DIGITS; //we add 4, because the marker is AFTER the sequence
+        return count + DIGITS;
     }
 
     if s.len() < 4 {
@@ -17,18 +18,21 @@ fn process(count: usize, s: &str) -> usize {
 
 fn first_n_unique(s: &str) -> bool {
     let mut unique: HashSet<char> = HashSet::new();
-    let mut i = 0;
+    let mut i: usize = 0;
 
     while i < DIGITS {
-        let newchar = match s[i..DIGITS].chars().next() {
+        let newchar = match s.chars().nth(i) {
             Some(a) => a,
             None => return false,
         };
-        //println! {"{:?} {:?}", i, unique};
-        unique.insert(newchar);
+
+        //small optimization
+        if !unique.insert(newchar) {
+            return false;
+        }
         i += 1;
     }
-    //println! {"{:?}", unique};
+
     unique.len() == DIGITS
 }
 
@@ -38,6 +42,9 @@ fn main() {
         .next()
         .unwrap();
 
+    let start = Instant::now();
     let result = process(0, input);
-    println!("{:?}", result);
+    let duration = start.elapsed();
+
+    println!("Result: {:?}, duration: {:?}", result, duration);
 }
