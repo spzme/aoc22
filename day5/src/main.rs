@@ -1,5 +1,4 @@
 use core::str::FromStr;
-
 #[derive(Debug)]
 struct Move {
     count: usize,
@@ -147,7 +146,8 @@ fn is_all_numbers(s: &str) -> bool {
         .all(char::is_numeric)
 }
 
-fn apply_move(mut stacks: Stacks, mv: Move) -> Stacks {
+#[allow(dead_code)]
+fn apply_move_p1(mut stacks: Stacks, mv: Move) -> Stacks {
     let mut i = 0;
     while i < mv.count {
         let b = stacks.positions[mv.from - 1].pop().unwrap();
@@ -158,12 +158,35 @@ fn apply_move(mut stacks: Stacks, mv: Move) -> Stacks {
     stacks
 }
 
+#[allow(dead_code)]
+fn apply_move_p2(mut stacks: Stacks, mv: Move) -> Stacks {
+    let mut boxes: Vec<char> = Vec::new();
+    let mut i = 0;
+    while i < mv.count {
+        let b = stacks.positions[mv.from - 1].pop().unwrap();
+        boxes.push(b);
+        i += 1;
+    }
+    boxes.reverse();
+
+    stacks.positions[mv.to - 1].append(&mut boxes);
+
+    stacks
+}
+
 fn main() {
     let parseresult = parseinput();
 
     let mut stacks = parseresult.stacks;
+
+    //part 1
+    // for mv in parseresult.moves {
+    //     stacks = apply_move_p1(stacks, mv)
+    // }
+
+    //part 2
     for mv in parseresult.moves {
-        stacks = apply_move(stacks, mv)
+        stacks = apply_move_p2(stacks, mv);
     }
 
     println!("Stacks of boxes: {:?}", stacks);
